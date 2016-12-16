@@ -1,0 +1,8 @@
+ALTER view [dbo].[view_uccc] as 
+	select
+		b.*, ISNULL( y.eweight, b.weight) eweight ,ISNULL( y.emount ,b.mount) emount,
+		case when ltrim(rtrim(isnull(y.cngstoreno,''))) = '' then b.storeno else y.cngstoreno end laststoreno
+	from view_uccb b
+	left join uccy y on y.uno=b.uno
+	where ISNULL( y.eweight, isnull(b.weight,0))>0 
+	or ISNULL( y.emount ,isnull(b.mount,0))>0
